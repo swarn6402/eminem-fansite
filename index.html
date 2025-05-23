@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eminem Fan Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="dark-theme">
     <nav>
         <ul>
             <li><a href="#home">Home</a></li>
@@ -14,113 +17,215 @@
             <li><a href="#songs">Songs</a></li>
             <li><a href="#discography">Discography</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><button id="theme-toggle" aria-label="Toggle theme"><span class="theme-icon-placeholder">🌙</span></button></li>
         </ul>
     </nav>
 
-    <section id="home">
-        <h1>Eminem</h1>
-        <img src="https://via.placeholder.com/800x400.png?text=Eminem+Hero+Image" alt="Eminem Hero Image">
-        <h2>The Real Slim Shady Fan Page</h2>
+    <!-- SECTION: Hero -->
+    <section id="hero"> <!-- Changed from id="home" -->
+        <div class="hero-content">
+            <h1>Eminem</h1>
+            <p class="subtitle">The Real Slim Shady Fan Page</p>
+            <button id="cta-listen-now" class="cta-button">Listen Now</button>
+        </div>
     </section>
-
+    <div class="section-divider"></div>
+    <!-- SECTION: About -->
     <section id="about">
         <h2>About Eminem</h2>
-        <p>Marshall Bruce Mathers III, known professionally as Eminem, is an American rapper, songwriter, and record producer. He is credited with popularizing hip hop in Middle America and is critically acclaimed as one of the greatest rappers of all time.</p>
-        <p>Eminem's global success and acclaimed works are widely regarded as having broken racial barriers for the acceptance of white rappers in popular music. While much of his transgressive work during the early 2000s made him hugely controversial, he became a representative of popular angst of the American underclass.</p>
+        <div class="card about-card">
+            <p>Marshall Bruce Mathers III, known professionally as Eminem, is an American rapper, songwriter, and record producer. He is credited with popularizing hip hop in Middle America and is critically acclaimed as one of the greatest rappers of all time.</p>
+            <p>Eminem's global success and acclaimed works are widely regarded as having broken racial barriers for the acceptance of white rappers in popular music. While much of his transgressive work during the early 2000s made him hugely controversial, he became a representative of popular angst of the American underclass.</p>
+        </div>
+        <!-- The old quote-box is removed as per instructions, can be re-added if needed -->
     </section>
-
+    <div class="section-divider"></div>
+    <!-- SECTION: Songs -->
     <section id="songs">
-        <h2>Top 5 Tracks</h2>
-        <div>
-            <h3>Lose Yourself</h3>
-            <audio controls>
-                <source src="https://example.com/placeholder.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        <div>
-            <h3>Stan</h3>
-            <audio controls>
-                <source src="https://example.com/placeholder.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        <div>
-            <h3>The Real Slim Shady</h3>
-            <audio controls>
-                <source src="https://example.com/placeholder.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        <div>
-            <h3>Without Me</h3>
-            <audio controls>
-                <source src="https://example.com/placeholder.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        <div>
-            <h3>Not Afraid</h3>
-            <audio controls>
-                <source src="https://example.com/placeholder.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
+        <h2>Top Tracks</h2>
+        <div class="playlist-panel">
+          <ul id="playlist-tracks">
+            <!-- JS will populate this with <li> elements -->
+          </ul>
         </div>
     </section>
-
+    <div class="section-divider"></div>
+    <!-- SECTION: Discography -->
     <section id="discography">
         <h2>Discography</h2>
-        <div class="album-grid">
+        <div class="carousel-container">
+          <div class="carousel-track">
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>The Slim Shady LP</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+1" alt="The Slim Shady LP" loading="lazy">
+                  <h3>The Slim Shady LP</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>The Slim Shady LP</h4>
+                  <p>Release Year: 1999</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>The Marshall Mathers LP</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+2" alt="The Marshall Mathers LP" loading="lazy">
+                  <h3>The Marshall Mathers LP</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>The Marshall Mathers LP</h4>
+                  <p>Release Year: 2000</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>The Eminem Show</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+3" alt="The Eminem Show" loading="lazy">
+                  <h3>The Eminem Show</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>The Eminem Show</h4>
+                  <p>Release Year: 2002</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>Encore</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+4" alt="Encore" loading="lazy">
+                  <h3>Encore</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>Encore</h4>
+                  <p>Release Year: 2004</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>Relapse</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+5" alt="Relapse" loading="lazy">
+                  <h3>Relapse</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>Relapse</h4>
+                  <p>Release Year: 2009</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>Recovery</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+6" alt="Recovery" loading="lazy">
+                  <h3>Recovery</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>Recovery</h4>
+                  <p>Release Year: 2010</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>The Marshall Mathers LP 2</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+7" alt="The Marshall Mathers LP 2" loading="lazy">
+                  <h3>The Marshall Mathers LP 2</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>The Marshall Mathers LP 2</h4>
+                  <p>Release Year: 2013</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>Revival</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+8" alt="Revival" loading="lazy">
+                  <h3>Revival</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>Revival</h4>
+                  <p>Release Year: 2017</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>Kamikaze</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+9" alt="Kamikaze" loading="lazy">
+                  <h3>Kamikaze</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>Kamikaze</h4>
+                  <p>Release Year: 2018</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
             <div class="album-card">
-                <img src="https://via.placeholder.com/150x150.png?text=Album+Cover" alt="Album Cover">
-                <p>Music to Be Murdered By</p>
+              <div class="album-card-inner">
+                <div class="album-card-front">
+                  <img src="https://via.placeholder.com/300x300.png?text=Album+10" alt="Music to Be Murdered By" loading="lazy">
+                  <h3>Music to Be Murdered By</h3>
+                </div>
+                <div class="album-card-back">
+                  <h4>Music to Be Murdered By</h4>
+                  <p>Release Year: 2020</p>
+                  <a href="#" class="spotify-link" target="_blank">Listen on Spotify</a>
+                </div>
+              </div>
             </div>
+          </div>
+          <button class="carousel-arrow carousel-prev" aria-label="Previous albums">&larr;</button>
+          <button class="carousel-arrow carousel-next" aria-label="Next albums">&rarr;</button>
         </div>
     </section>
-
+    <div class="section-divider"></div>
+    <!-- SECTION: Contact -->
     <section id="contact">
-        <h2>Contact/Social</h2>
-        <a href="#"><img src="https://via.placeholder.com/32x32.png?text=TW" alt="Twitter"></a>
-        <a href="#"><img src="https://via.placeholder.com/32x32.png?text=IG" alt="Instagram"></a>
-        <a href="#"><img src="https://via.placeholder.com/32x32.png?text=YT" alt="YouTube"></a>
+        <h2>Get In Touch</h2>
+        <div class="social-icons">
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a> <!-- Placeholder icon -->
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a> <!-- Placeholder icon -->
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a> <!-- Placeholder icon -->
+        </div>
+        <form id="subscription-form">
+          <h3>Subscribe to Newsletter</h3>
+          <input type="email" id="email-input" name="email" placeholder="your@email.com" required>
+          <button type="submit" class="cta-button">Subscribe</button>
+          <div id="alert-banner" role="alert" aria-live="assertive" style="margin-top: 1rem;"></div>
+        </form>
     </section>
+    <div class="section-divider"></div>
 
-    <script src="script.js"></script>
+    <footer id="audio-player-footer" class="hidden"> <!-- Start hidden, JS can show it -->
+      <img id="current-album-art" src="https://via.placeholder.com/80x80.png?text=Art" alt="Album art">
+      <div class="track-info">
+        <p id="current-track-title">Select a track</p>
+        <!-- Optional: <p id="current-track-artist">Artist</p> -->
+      </div>
+      <div class="player-controls">
+        <button id="prev-track-footer" aria-label="Previous Track"><i class="fas fa-backward"></i></button> <!-- Placeholder icon -->
+        <button id="play-pause-btn" aria-label="Play/Pause"><i class="fas fa-play"></i></button> <!-- Placeholder icon -->
+        <button id="next-track-footer" aria-label="Next Track"><i class="fas fa-forward"></i></button> <!-- Placeholder icon -->
+      </div>
+      <div class="progress-container">
+        <span id="current-time" class="time">0:00</span>
+        <input type="range" id="progress-bar" value="0" max="100">
+        <span id="duration" class="time">0:00</span>
+      </div>
+    </footer>
+    <button id="back-to-top" class="hidden" aria-label="Back to top">&uarr;</button>
+    <script src="script.js" defer></script>
 </body>
 </html>

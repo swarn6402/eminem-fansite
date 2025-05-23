@@ -1,215 +1,550 @@
-* {
-    box-sizing: border-box;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
 }
 
 section {
-    padding: 20px;
-    margin-bottom: 10px;
-    background-color: #fff;
-    opacity: 0; /* Initial state for fade-in */
-    transition: opacity 0.5s ease-in-out;
+  padding: 4rem 1rem;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  position: relative; /* For z-index context if needed by dividers */
+  z-index: 1;
 }
 
-/* Class to be added by JavaScript to trigger fade-in */
 .section-fade-in {
     opacity: 1;
 }
 
+/* CSS Variables (Theme Palette) */
+:root {
+  /* Dark Theme (Default) */
+  --bg-color-dark: #1a1a1a;
+  --text-color-dark: #f0f0f0;
+  --accent-color-dark: #00ff99; /* Neon Green */
+  --accent-color-dark-rgb: 0, 255, 153; /* For rgba() */
+  --panel-bg-color-dark: #2c2c2c;
+  --card-bg-color-dark: #333333;
+  --card-bg-color-dark-rgb: 51, 51, 51; /* For rgba() */
+  --nav-bg-color-dark: #222222;
+  --button-hover-dark: #00cc7a;
+
+  /* Light Theme */
+  --bg-color-light: #f4f4f4;
+  --text-color-light: #333333;
+  --accent-color-light: #007bff; /* Example: a blue for light theme */
+  --accent-color-light-rgb: 0, 123, 255; /* For rgba() */
+  --panel-bg-color-light: #ffffff;
+  --card-bg-color-light: #f9f9f9;
+  --card-bg-color-light-rgb: 249, 249, 249; /* For rgba() */
+  --nav-bg-color-light: #e9ecef;
+  --button-hover-light: #0056b3;
+
+  /* Spacing & Fonts */
+  --font-heading: 'Oswald', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --spacing-unit: 1rem;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+}
+
+body.dark-theme {
+  background-color: var(--bg-color-dark);
+  color: var(--text-color-dark);
+}
+
+body.light-theme {
+  background-color: var(--bg-color-light);
+  color: var(--text-color-light);
+}
+
+/* Theme Toggle Button Styling */
+#theme-toggle {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease; /* For icon change if any */
+}
+#theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.theme-icon-placeholder {
+  display: inline-block;
+  transition: transform 0.3s ease; /* Smooth icon transition */
+}
+
+/* Back to Top Button Styling */
+#back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+#back-to-top:hover {
+  transform: scale(1.1);
+}
+#back-to-top.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px); /* Slight animation out */
+}
+body.dark-theme #back-to-top {
+  background-color: var(--accent-color-dark);
+  color: var(--bg-color-dark);
+}
+body.light-theme #back-to-top {
+  background-color: var(--accent-color-light);
+  color: var(--text-color-dark); /* Ensure contrast */
+}
+
+/* Navigation Bar */
 nav {
-    background: #333;
-    color: #fff;
     padding: 1rem 0;
     text-align: center;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 999; /* Below player/back-to-top but above content */
+    transition: background-color 0.3s ease;
 }
-
 nav ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    display: flex;
-    justify-content: center;
+    padding: 0; margin: 0; list-style: none; display: flex; justify-content: center;
+}
+nav ul li { margin: 0 1rem; }
+nav ul li a { font-weight: bold; transition: color 0.3s ease; }
+body.dark-theme nav { background-color: var(--nav-bg-color-dark); }
+body.light-theme nav { background-color: var(--nav-bg-color-light); }
+body.dark-theme nav a { color: var(--text-color-dark); }
+body.dark-theme nav a:hover { color: var(--accent-color-dark); }
+body.light-theme nav a { color: var(--text-color-light); }
+body.light-theme nav a:hover { color: var(--accent-color-light); }
+body.dark-theme #theme-toggle { color: var(--text-color-dark); }
+body.light-theme #theme-toggle { color: var(--text-color-light); }
+
+
+/* Hero Section (#hero) */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 2rem 1rem; /* Padding for content on smaller screens */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://via.placeholder.com/1920x1080.png?text=Eminem+Hero+Background');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed; /* Parallax effect */
+}
+.hero-content {
+  z-index: 1; /* Above background overlay */
+  color: var(--text-color-dark); /* Text is always light on dark overlay */
+}
+#hero h1 {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+#hero .subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
-nav ul li {
-    margin: 0 1rem;
+/* CTA Button */
+.cta-button {
+  padding: 0.8rem 2rem;
+  border-radius: var(--border-radius-md);
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: var(--font-heading);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: none; /* Ensure no default border */
+}
+.cta-button:hover, .cta-button:focus {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+body.dark-theme .cta-button {
+  background-color: var(--accent-color-dark);
+  color: var(--bg-color-dark); /* Text color for dark theme accent */
+}
+body.dark-theme .cta-button:hover, body.dark-theme .cta-button:focus {
+  background-color: var(--button-hover-dark);
+}
+body.light-theme .cta-button {
+  background-color: var(--accent-color-light);
+  color: #fff; /* White text on blue accent */
+}
+body.light-theme .cta-button:hover, body.light-theme .cta-button:focus {
+  background-color: var(--button-hover-light);
 }
 
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
+/* Cards & Panels */
+.card {
+  padding: calc(var(--spacing-unit) * 1.5);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-
-nav ul li a:hover {
-    color: #17a2b8; /* Eminem blue-ish color */
+body.dark-theme .card {
+  background-color: var(--card-bg-color-dark);
+  /* border: 1px solid var(--accent-color-dark); Optional */
 }
-
-#home {
-    text-align: center;
-    padding: 50px 20px;
-    background-color: #e9ecef;
+body.light-theme .card {
+  background-color: var(--card-bg-color-light);
+  /* border: 1px solid var(--accent-color-light); Optional */
 }
-
-#home h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
+.about-card {
+  max-width: 700px;
+  margin: 2rem auto;
+  /* For backdrop-filter, assuming --card-bg-color-dark-rgb is defined */
+  /* background-color: rgba(var(--card-bg-color-dark-rgb, 51, 51, 51), 0.7); */
+  /* backdrop-filter: blur(10px); */
 }
+/* body.light-theme .about-card { background-color: rgba(var(--card-bg-color-light-rgb, 249, 249, 249), 0.8); } */
 
-#home img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
+.playlist-panel {
+  padding: var(--spacing-unit);
+  border-radius: var(--border-radius-md);
+  margin-bottom: 2rem;
 }
+body.dark-theme .playlist-panel { background-color: var(--panel-bg-color-dark); }
+body.light-theme .playlist-panel { background-color: var(--panel-bg-color-light); }
 
-#home .subtitle { /* Make sure this class is added in HTML */
-    font-size: 1.5rem;
-    color: #555;
+/* Playlist & Footer Player */
+#playlist-tracks {
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
 }
-
-#about p {
-    margin-bottom: 15px;
+#playlist-tracks li {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 0.9rem;
 }
+body.dark-theme #playlist-tracks li { border-color: var(--bg-color-dark); }
+body.light-theme #playlist-tracks li { border-color: var(--bg-color-light); }
 
-#songs h2 {
-    text-align: center;
-    margin-bottom: 20px;
+body.dark-theme #playlist-tracks li:hover { background-color: var(--card-bg-color-dark); }
+body.light-theme #playlist-tracks li:hover { background-color: var(--card-bg-color-light); }
+
+#playlist-tracks li.active {
+  font-weight: bold;
 }
+body.dark-theme #playlist-tracks li.active { color: var(--accent-color-dark); }
+body.light-theme #playlist-tracks li.active { color: var(--accent-color-light); }
 
-#songs .song-item { /* Make sure this class is added in HTML */
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+#audio-player-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  z-index: 1001;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease-in-out;
+  transform: translateY(100%); /* Start hidden */
 }
-
-#songs .song-item h3 {
-    margin-top: 0;
+#audio-player-footer.visible {
+  transform: translateY(0);
 }
+body.dark-theme #audio-player-footer { background-color: var(--nav-bg-color-dark); }
+body.light-theme #audio-player-footer { background-color: var(--nav-bg-color-light); }
 
-#songs audio {
-    width: 100%;
-    margin-top: 10px;
+#audio-player-footer img#current-album-art { width: 60px; height: 60px; border-radius: var(--border-radius-md); object-fit: cover; }
+#audio-player-footer .track-info { flex-grow: 1; text-align: left; font-size: 0.9rem;}
+#audio-player-footer .track-info p { margin: 0.2rem 0; }
+#audio-player-footer .player-controls button { font-size: 1.2rem; padding: 0.5rem; margin: 0 0.2rem; background: none; border: none;}
+body.dark-theme #audio-player-footer .player-controls button { color: var(--text-color-dark); }
+body.light-theme #audio-player-footer .player-controls button { color: var(--text-color-light); }
+#audio-player-footer .player-controls button:hover { color: var(--accent-color-dark); } /* Needs theming */
+body.light-theme #audio-player-footer .player-controls button:hover { color: var(--accent-color-light); }
+
+#audio-player-footer .progress-container { display: flex; align-items: center; flex-grow: 2; min-width: 150px; }
+#audio-player-footer input[type="range"]#progress-bar {
+  flex-grow: 1; height: 8px; -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer;
 }
+#progress-bar::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; }
+body.dark-theme #progress-bar::-webkit-slider-runnable-track { background: #555; }
+body.light-theme #progress-bar::-webkit-slider-runnable-track { background: #ccc; }
+#progress-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; margin-top: -5px; }
+body.dark-theme #progress-bar::-webkit-slider-thumb { background: var(--accent-color-dark); }
+body.light-theme #progress-bar::-webkit-slider-thumb { background: var(--accent-color-light); }
+#progress-bar::-moz-range-track { height: 4px; border-radius: 2px; }
+body.dark-theme #progress-bar::-moz-range-track { background: #555; }
+body.light-theme #progress-bar::-moz-range-track { background: #ccc; }
+#progress-bar::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; border: none; }
+body.dark-theme #progress-bar::-moz-range-thumb { background: var(--accent-color-dark); }
+body.light-theme #progress-bar::-moz-range-thumb { background: var(--accent-color-light); }
+#audio-player-footer .time { font-size: 0.8rem; margin: 0 0.5rem; }
 
-#discography h2 {
-    text-align: center;
-    margin-bottom: 20px;
+/* Discography Carousel */
+.carousel-container {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  overflow: hidden;
 }
-
-.album-grid {
-    display: grid;
-    grid-gap: 20px;
-    grid-template-columns: repeat(2, 1fr); /* Mobile default */
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
 }
-
-.album-card {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.album-card { /* Container for each card in the carousel track */
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0.5rem; /* Provides spacing between cards */
+  perspective: 1000px;
 }
-
-.album-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+.album-card-inner {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* Creates square aspect ratio */
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-
-.album-card img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
+.album-card:hover .album-card-inner {
+  transform: rotateY(180deg);
 }
-
-.album-card p {
-    margin-top: 10px;
-    font-weight: bold;
+.album-card-front, .album-card-back {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
 }
+body.dark-theme .album-card-front, body.dark-theme .album-card-back { background-color: var(--card-bg-color-dark); }
+body.light-theme .album-card-front, body.light-theme .album-card-back { background-color: var(--card-bg-color-light); }
 
-#contact {
-    text-align: center;
-    padding: 30px 20px;
-    background-color: #333;
-    color: #fff;
+.album-card-front img { width: 70%; max-height: 70%; object-fit: cover; margin-bottom: 0.5rem; border-radius: var(--border-radius-md); }
+.album-card-front h3 { font-size: 1rem; margin-top: 0.5rem;} /* Adjusted for space */
+.album-card-back { transform: rotateY(180deg); }
+.album-card-back h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.album-card-back p { font-size: 0.9rem; margin-bottom: 1rem; }
+.album-card-back .spotify-link {
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block; /* Allow padding and centering */
 }
+body.dark-theme .album-card-back .spotify-link { background-color: var(--accent-color-dark); color: var(--bg-color-dark); }
+body.light-theme .album-card-back .spotify-link { background-color: var(--accent-color-light); color: #fff; } /* White text on blue */
 
-#contact h2 {
-    margin-bottom: 20px;
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.3s ease;
 }
+.carousel-arrow:hover { background-color: rgba(0, 0, 0, 0.8); }
+.carousel-prev { left: 10px; }
+.carousel-next { right: 10px; }
 
-#contact .social-icons a { /* Make sure this class is added in HTML */
-    margin: 0 10px;
-    display: inline-block;
-    transition: transform 0.3s ease;
+/* Form Styling */
+#subscription-form {
+  display: flex; /* Align input and button */
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
+#subscription-form h3 { width: 100%; text-align: center; margin-bottom: 1rem; }
+#subscription-form input[type="email"] {
+  padding: 0.8rem;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-md);
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  flex-grow: 1; /* Allow input to take available space */
+  min-width: 200px; /* Minimum width before wrapping */
+}
+body.dark-theme #subscription-form input[type="email"] { background-color: var(--panel-bg-color-dark); color: var(--text-color-dark); border-color: var(--card-bg-color-dark); }
+body.light-theme #subscription-form input[type="email"] { background-color: var(--panel-bg-color-light); color: var(--text-color-light); border-color: var(--card-bg-color-light); }
 
-#contact .social-icons img {
-    width: 32px;
-    height: 32px;
+#subscription-form input[type="email"]:focus {
+  outline: none;
+}
+body.dark-theme #subscription-form input[type="email"]:focus {
+  border-color: var(--accent-color-dark);
+  box-shadow: 0 0 0 3px rgba(var(--accent-color-dark-rgb), 0.3);
+}
+body.light-theme #subscription-form input[type="email"]:focus {
+  border-color: var(--accent-color-light);
+  box-shadow: 0 0 0 3px rgba(var(--accent-color-light-rgb), 0.3);
+}
+#subscription-form button[type="submit"].cta-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+#alert-banner {
+  padding: 0.8rem;
+  margin-top: 1rem;
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  font-weight: bold;
+  display: none; /* Hidden by default */
+  width: 100%; /* Span full width of form container */
+}
+/* Themed success/error: */
+body.dark-theme #alert-banner.success { background-color: var(--accent-color-dark); color: var(--bg-color-dark); }
+body.dark-theme #alert-banner.error { background-color: #d9534f; color: var(--text-color-dark); } /* Standard red */
+body.light-theme #alert-banner.success { background-color: var(--accent-color-light); color: #fff; } /* White text on blue */
+body.light-theme #alert-banner.error { background-color: #d9534f; color: #fff; } /* White text on red */
+
+/* Section Separators */
+.section-divider {
+    height: 5px; /* Simple line divider */
+    width: 100px;
+    margin: 3rem auto; /* Center it */
     border-radius: 5px;
 }
+body.dark-theme .section-divider { background-color: var(--accent-color-dark); }
+body.light-theme .section-divider { background-color: var(--accent-color-light); }
 
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #hero h1 { font-size: 3rem; }
+  #hero .subtitle { font-size: 1.2rem; }
+  #audio-player-footer {
+    flex-direction: column; padding: 0.5rem; text-align: center;
+    /* transform: translateY(100%); Already applied */
+  }
+  #audio-player-footer.visible { transform: translateY(0); }
+  #audio-player-footer .track-info { order: 1; width: 100%;}
+  #audio-player-footer .progress-container { order: 2; width: 90%; margin: 0.5rem auto; }
+  #audio-player-footer .player-controls { order: 3; }
+  #audio-player-footer img#current-album-art { display: none; }
+
+  nav ul { flex-direction: column; align-items: center; }
+  nav ul li { margin: 0.5rem 0; }
+  #theme-toggle { position: absolute; top: 0.5rem; right: 0.5rem; } /* Example reposition */
+}
+
+@media (min-width: 768px) { /* Tablet and up for Carousel */
+  .album-card { flex: 0 0 50%; max-width: 50%; } /* 2 cards */
+}
+@media (min-width: 1024px) { /* Desktop for Carousel */
+  .album-card { flex: 0 0 calc(100% / 3); max-width: calc(100% / 3); } /* 3 cards */
+}
+
+/* Ensure contact section social icons are styled if they exist and use FontAwesome */
+#contact .social-icons {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+#contact .social-icons a {
+  font-size: 2rem; /* Example size for icons */
+  margin: 0 0.75rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
 #contact .social-icons a:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
+body.dark-theme #contact .social-icons a { color: var(--text-color-dark); }
+body.dark-theme #contact .social-icons a:hover { color: var(--accent-color-dark); }
+body.light-theme #contact .social-icons a { color: var(--text-color-light); }
+body.light-theme #contact .social-icons a:hover { color: var(--accent-color-light); }
 
-/* Media Queries */
+/* Ensure any direct children of body that are sections get the fade-in if needed */
+/* This is already handled by 'section' and '.section-fade-in' */
+/* Final check on z-indexes */
+/* nav: 999 */
+/* #back-to-top: 1000 */
+/* #audio-player-footer: 1001 */
+/* .hero-content: 1 (relative to #hero) */
+/* .carousel-arrow: 10 (relative to .carousel-container) */
+/* section: 1 (default) */
+/* This stacking order seems logical. */The `styles.css` file has been successfully overwritten with the comprehensive set of new styling rules.
 
-/* Tablet (min-width: 600px) */
-@media (min-width: 600px) {
-    #home h1 {
-        font-size: 4rem;
-    }
+The changes include:
+1.  **Theme Switch & Smooth Transitions**: Verified that `body` has transitions. Added transitions to `#theme-toggle`, `.theme-icon-placeholder`, `#back-to-top`, and other elements where appropriate.
+2.  **Hero Section (`#hero`)**: Styled for full viewport height, parallax background image with overlay, and specific typography for `h1` and `.subtitle`. CTA button styles were also defined and applied.
+3.  **Cards & Panels (`.card`, `.about-card`, `.playlist-panel`)**: General card styling with theme-specific backgrounds and optional borders. Specific styles for `.about-card` (including commented-out `backdrop-filter` example) and `.playlist-panel` were applied.
+4.  **Playlist & Footer Player (`#playlist-tracks`, `#audio-player-footer`)**: Styled the playlist with scroll, item hover/active states, and theme-specific colors. The footer audio player is styled for fixed positioning, initially hidden, with themed backgrounds, and custom styling for its components including the progress bar across browsers.
+5.  **Discography Carousel (`.carousel-container`, `.album-card`)**: Implemented styles for the carousel container, track, and individual album cards. Album cards feature a 3D flip animation on hover, with distinct front and back content, and responsive behavior for 1, 2, or 3 cards per view based on screen width. Carousel navigation arrows are also styled.
+6.  **Form Styling (`#subscription-form`, `#alert-banner`)**: Styled the email input field with theme-specific focus effects (using placeholder RGB variables for shadow). The submit button utilizes the `.cta-button` style. The `#alert-banner` is styled for success/error states, themed, and initially hidden.
+7.  **Section Separators (`.section-divider`)**: Implemented as a simple, centered, themed line.
+8.  **Responsive Design Checks**: Integrated new media queries for the footer audio player (adjusting layout and hiding album art on small screens) and the carousel. Also added a responsive rule for the main navigation to stack vertically on smaller screens and repositioned the theme toggle for that layout. Styles for social icons in the contact section were also added.
 
-    #home .subtitle {
-        font-size: 1.8rem;
-    }
+RGB versions of accent colors (`--accent-color-dark-rgb`, etc.) were added as comments and used in `rgba()` for box shadows where appropriate, with fallbacks implied if not pre-processed. Font Awesome placeholder icons are referenced in HTML and will need the library loaded to render; basic styling for them is provided.
 
-    .album-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* Desktop (min-width: 1024px) */
-@media (min-width: 1024px) {
-    nav ul {
-        justify-content: flex-end;
-        padding-right: 2rem;
-    }
-
-    #home {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        text-align: left;
-    }
-
-    #home div { /* This will target the text content wrapper in the hero section */
-        max-width: 50%;
-    }
-
-    #home img {
-        max-width: 45%;
-        margin-bottom: 0;
-    }
-
-    .album-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
+All specified styles have been applied.
