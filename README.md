@@ -21,7 +21,7 @@ A compact, static fan site built with plain HTML, CSS, and JavaScript. The proje
 ## Quick start
 
 1. Clone the repository:
-   git clone https://github.com/swarn6402/eminemfansite.git
+   git clone https://github.com/swarn6402/eminem-fansite.git
 2. Open `index.html` in a browser, or serve it with a simple web server:
    - Python 3:
      python3 -m http.server 8000
